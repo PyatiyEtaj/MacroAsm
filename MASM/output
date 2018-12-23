@@ -1,0 +1,76 @@
+﻿vvod: char [6] 'Vvedite 2 znacheniya'
+vivod_swap: char [2] 'SWAP'
+ square_10: char [7] 'ploshad kruga s r = 10'
+   endline: char [1] '\n'
+
+
+
+
+MAIN: func
+	upld r50, endline+1
+
+	
+	upld r100, vvod+1
+			output char r100
+		add_r const r100, 1
+			output char r100
+		add_r const r100, 1
+			output char r100
+		add_r const r100, 1
+			output char r100
+		add_r const r100, 1
+			output char r100
+		add_r const r100, 1
+	
+	output (char r50) 
+
+	input int r1
+	input int r2
+	
+	
+	upld r100, vivod_swap+1
+			output char r100
+		add_r const r100, 1
+	
+	output (char r50) 
+
+	
+	mov r128, r1
+	mov r1, r2
+	mov r2, r128
+
+
+	output int r1
+	output char r50
+	output int r2
+	output char r50
+	
+	
+	upld r100, square_10+1
+			output char r100
+		add_r const r100, 1
+			output char r100
+		add_r const r100, 1
+			output char r100
+		add_r const r100, 1
+			output char r100
+		add_r const r100, 1
+			output char r100
+		add_r const r100, 1
+			output char r100
+		add_r const r100, 1
+	
+	output (char r50) 
+
+	
+	sqr: real 3,14 * 10.0 * 10.0 
+	
+	
+	
+	
+	
+	upld r10, sqr
+
+	output real r10
+	output char r50
+	END MAIN
