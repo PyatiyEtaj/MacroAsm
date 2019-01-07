@@ -17,6 +17,7 @@ vivod_swap: char [2] 'SWAP'
 		add_r const r100, 1
 	#endcycle
 	output (char r50) ; вывод знака \n
+#endmacro
 
 
 MAIN: func
@@ -39,5 +40,4 @@ MAIN: func
 	output real r10
 	output char r50
 	END MAIN
-
 

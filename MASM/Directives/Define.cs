@@ -23,7 +23,10 @@ namespace Directives
                     {
                         value += res[i].Value;
                     }
-                    value = _engine.Execute(value).ToString();
+                    if (value[0] != '\'' && value[value.Length-1] != '\'')
+                    {
+                        value = _engine.Execute(value).ToString();
+                    }
                     masm.Table.Add(res[1].Value, value);
                     break;
             }

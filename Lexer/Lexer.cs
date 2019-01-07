@@ -22,12 +22,14 @@ namespace LexicalAnalysis
         public enum Lexems
         {
             ErrorName = 1,
-                Ident = 2,
-               Number = 3,
-                 Sign = 4
+               String = 2,
+                Ident = 3,
+               Number = 4,
+                 Sign = 5
         }
 
         private static string _pattern = @"(?<ERROR>\d+[a-z|A-Z|_]+)|" +  // шаблон ошибки 
+                                         @"(?<STRING>\'.*\')|" +
                                          @"(?<IDENT>[a-z|A-Z]{1}[a-z|A-Z|_|0-9]*)|" + // идентификатор
                                          @"(?<NUMBER>\d+)|" +  // числа
                                          @"(?<SIGN>[,|(|)|!|\+|\-|\*|\/|.|@|<|>])";  // знаки

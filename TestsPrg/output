@@ -6,6 +6,7 @@ vivod_swap: char [2] 'SWAP'
 
 
 
+
 MAIN: func
 	upld r50, endline+1
 

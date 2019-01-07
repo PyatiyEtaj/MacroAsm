@@ -29,13 +29,17 @@ namespace Directives
                 {
                     case (int)Lexer.Lexems.Sign:
                         if (res[i].Value == ">")
+                        {
                             i = res.Count;
+                        }                            
                         else if (res[i].Value == "<")
                         {
                             throw new Exception(@"Ошибочный символ '<'");
                         }
                         else
+                        {
                             _filename += res[i].Value;
+                        }                            
                         break;
                     default:
                         _filename += res[i].Value;

@@ -30,22 +30,22 @@ namespace MASM
 
         public void Run(string inputFileName, string outputFileName)
         {
-            string text;
-            using (StreamReader sr = new StreamReader(inputFileName, Encoding.UTF8))
+            string text = "";
+            try
             {
-                text = sr.ReadToEnd();
-            }
-            // удаление комментариев
-            Directive.EraseComments(ref text);
-            
-            // производим импорт для всех файлов
-            bool check = ImportAllFiles(ref text);
-            int pos = text.IndexOf("#");
-            while (pos != -1)
-            {
-                var dirName = GetCmdName(text, pos);
-                try
+                using (StreamReader sr = new StreamReader(inputFileName, Encoding.UTF8))
                 {
+                    text = sr.ReadToEnd();
+                }
+                // удаление комментариев
+                Directive.EraseComments(ref text);
+
+                // производим импорт для всех файлов
+                bool check = ImportAllFiles(ref text);
+                int pos = text.IndexOf("#");
+                while (pos != -1)
+                {
+                    var dirName = GetCmdName(text, pos);
                     // вызов директивы
                     if (_dirs.ContainsKey(dirName))
                     {
@@ -57,20 +57,21 @@ namespace MASM
                         throw new Exception("Неожиданная встреча директивы: " + dirName);
                     }
                 }
-                catch (Exception e)
+                using (StreamWriter sw = new StreamWriter(outputFileName, false, Encoding.UTF8))
                 {
-                    using (StreamWriter sw = new StreamWriter($"{outputFileName}_LOG"))
-                    {
-                        sw.WriteLine(text.Insert(text.Length-1, $"***[ Ошибка: {e.Message} ]***"));
-                    }
-                    Console.WriteLine($"EXCEPTION: {e.Message}");
-                    Console.WriteLine("Завершение программы!");
-                    return;
+                    sw.WriteLine(text.Trim('\n', ' ', '\r'));
                 }
+                Console.WriteLine("Успешное завершение работы");
             }
-            using (StreamWriter sw = new StreamWriter(outputFileName, false, Encoding.UTF8))
+            catch (Exception e)
             {
-                sw.WriteLine(text.Trim('\n', ' ', '\r'));
+                using (StreamWriter sw = new StreamWriter($"{outputFileName}_LOG"))
+                {
+                    sw.WriteLine(text.Insert(text.Length - 1, $"***[ Ошибка: {e.Message} ]***"));
+                }
+                Console.WriteLine($"ИСКЛЮЧЕНИЕ: {e.Message}");
+                Console.WriteLine("Аварийное завершение программы!");
+                return;
             }
         }
 

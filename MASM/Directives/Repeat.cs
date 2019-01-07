@@ -22,7 +22,6 @@ namespace Directives
                 throw new Exception("Количество повторений должно быть целым числом");
             }
             _countOfRepeat = Int32.Parse(headLexems[1].Value);
-            Console.WriteLine(_countOfRepeat);
             var body = parsePart.Remove(0, endFirstLine + 1);
             string result = "";
             for (int i = 0; i < _countOfRepeat; i++)

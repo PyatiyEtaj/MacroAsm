@@ -10,8 +10,7 @@ namespace MASM
         {
             MacroAsm masm = new MacroAsm();
             masm.Run("input", "output");
-            Console.WriteLine("---------DONE---------");
-            //Console.ReadKey();
+            Console.ReadKey();
         }
     }
 }
