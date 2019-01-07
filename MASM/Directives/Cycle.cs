@@ -34,7 +34,7 @@ namespace Directives
             } while (i < res.Count && count > 0);
             if (count > 0)
             {
-                throw new Exception($"Недостаточное количество {DirNames.EndCycle.Value}");
+                throw new Exception($"В цикле недостаточное количество {DirNames.EndCycle.Value}");
             }
             return res[--i];
         }

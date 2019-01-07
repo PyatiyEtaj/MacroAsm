@@ -16,11 +16,11 @@ namespace Directives
             MatchCollection res = Lexer.Run(Parse(ref text, ref pos));
             if (res.Count < 4)
             {
-                throw new Exception("Неверный формат директивы: #import <...>");
+                throw new Exception("[import] - Неверный формат директивы: #import <...>");
             }
             if (res[1].Value != "<")
             {
-                throw new Exception(@"Ожидался символ '<'");
+                throw new Exception(@"[import] - Ожидался символ '<'");
             }
             // путь до файла, который необходимо импортировать
             for (int i = 2; i < res.Count; i++)
@@ -34,7 +34,7 @@ namespace Directives
                         }                            
                         else if (res[i].Value == "<")
                         {
-                            throw new Exception(@"Ошибочный символ '<'");
+                            throw new Exception(@"[import] - Ошибочный символ '<'");
                         }
                         else
                         {

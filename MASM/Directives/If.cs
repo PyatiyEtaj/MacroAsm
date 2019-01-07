@@ -12,14 +12,13 @@ namespace Directives
             MatchCollection res = Lexer.Run(Parse(ref text, ref pos));
             if (res.Count < 4)
             {
-                throw new Exception("Недостаточное количество параметров");
+                throw new Exception("[if] - Недостаточное количество параметров");
             }
             string expression = "";
             for (int i = 1; i < res.Count; i++)
             {
                 expression += res[i].Value;
             }
-            Console.WriteLine("Выражение - " + expression);
             bool check = _engine.Execute(expression);
             if (check)
             {

@@ -14,7 +14,7 @@ namespace Directives
             switch (res.Count)
             {
                 case 1:
-                    throw new Exception("Ожидалось имя и значение закрепленное за ним");
+                    throw new Exception("[define] - Ожидалось имя и значение закрепленное за ним");
                 case 2:
                     masm.Table.Add(res[1].Value, value);
                     break;

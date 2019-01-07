@@ -21,7 +21,7 @@ namespace Directives
             var body = parsePart.Remove(0, endFirstLine + 1);
             if (headLexems.Count < 3)
             {
-                throw new Exception("Не указаны значения для подстановки в след. блок");
+                throw new Exception("[foreach] - Не указаны значения для подстановки в след. блок");
             }
             _var = headLexems[1].Value;
             for (int i = 2; i < headLexems.Count; i++)

@@ -9,13 +9,13 @@ namespace Directives
     public class Macros : Directive
     {
         private string _name = null;
-        private List<string> _args;
+        private List<string> _params;
 
-        private List<string> GetArgs(MatchCollection mc, int pos = 1)
+        private List<string> GetParams(MatchCollection mc, int pos = 1)
         {
             if (mc[pos].Value != "(")
             {
-                throw new Exception(@"Ожидалася символ '('");
+                throw new Exception($"[macros {_name}] - Ожидалася символ '('");
             }
             List<string> ls = new List<string>();
             string localValue = null;
@@ -30,9 +30,8 @@ namespace Directives
                     case (int)Lexer.Lexems.Number:
                         localValue += mc[pos].Value;
                         break;
-                    case (int)Lexer.Lexems.ErrorName:
-                        
-                        throw new Exception("Аргумент содержит недопустимое имя: " + mc[pos].Value);
+                    case (int)Lexer.Lexems.ErrorName:                        
+                        throw new Exception($"[macros {_name}] - Аргумент содержит недопустимое имя: {mc[pos].Value}");
                     case (int)Lexer.Lexems.Sign:
                         if (mc[pos].Value == ",")
                         {
@@ -56,27 +55,27 @@ namespace Directives
                 }
             }
             if (!isEnd)
-                throw new Exception(@"Ожидался символ ')'");
+                throw new Exception($"[macros - {_name}] - Ожидался символ ')'");
 
             return ls;
         }
 
-        private void FindAndChangeMacros(ref string text, string body)
+        private void FindAndInsertMacros(ref string text, string body)
         {
             Regex r = new Regex($"{_name}\\s.*");
             MatchCollection res = r.Matches(text);
             for (int count = 0; count < res.Count; count++)
             {
                 var tmp = Lexer.Run(res[count].Value);
-                var localArgs = GetArgs(tmp);
-                if (localArgs.Count != _args.Count)
+                var localArgs = GetParams(tmp);
+                if (localArgs.Count != _params.Count)
                 {
-                    throw new Exception("Неверное количество параметров");
+                    throw new Exception($"[macros - {_name}] - Неверное количество параметров");
                 }
                 var localBody = body;
-                for (int i = 0; i < _args.Count; i++)
+                for (int i = 0; i < _params.Count; i++)
                 {
-                    r = new Regex($"\\${_args[i]}");
+                    r = new Regex($"\\${_params[i]}");
                     localBody = r.Replace(localBody, localArgs[i]);
                 }
                 text = text.Replace(res[count].Value, localBody, StringComparison.Ordinal);
@@ -88,7 +87,7 @@ namespace Directives
             string res = "";
             int tmp = text.IndexOf(DirNames.EndMacro.Value, pos);
             if (tmp == -1)
-                throw new Exception("Ожидалось оканчание макроопределения");
+                throw new Exception("[macros] - Ожидалось окончание макроопределения");
             res = text.Substring(pos, tmp - pos);
             text = text.Remove(pos, tmp + DirNames.EndMacro.Value.Length - pos);
             return res;
@@ -106,14 +105,14 @@ namespace Directives
             MatchCollection res = Lexer.Run(head);
             if (res.Count < 2 || res[1].CurGroup() != (int) Lexer.Lexems.Ident)
             {
-                throw new Exception("Ожидалось имя макроопределения");   
+                throw new Exception("[macros] - Ожидалось имя макроопределения");   
             }
             // устанавливаем название макроопределения
             // а также аргументы
             _name = res[1].Value;
-            _args = GetArgs(res, 2);
+            _params = GetParams(res, 2);
             masm.Table.Add(_name, body);
-            FindAndChangeMacros(ref text, body);
+            FindAndInsertMacros(ref text, body);
         }
     }
 }

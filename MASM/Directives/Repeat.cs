@@ -15,11 +15,11 @@ namespace Directives
             var headLexems = Lexer.Run(parsePart.Substring(0, endFirstLine));
             if (headLexems.Count < 2)
             {
-                throw new Exception("Не указано количество повторений");
+                throw new Exception("[repeat] - Не указано количество повторений");
             }
             if (headLexems[1].CurGroup() != (int)Lexer.Lexems.Number)
             {
-                throw new Exception("Количество повторений должно быть целым числом");
+                throw new Exception("[repeat] - Количество повторений должно быть целым числом");
             }
             _countOfRepeat = Int32.Parse(headLexems[1].Value);
             var body = parsePart.Remove(0, endFirstLine + 1);

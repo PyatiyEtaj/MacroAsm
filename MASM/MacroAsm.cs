@@ -65,12 +65,12 @@ namespace MASM
             }
             catch (Exception e)
             {
-                using (StreamWriter sw = new StreamWriter($"{outputFileName}_LOG"))
-                {
-                    sw.WriteLine(text.Insert(text.Length - 1, $"***[ Ошибка: {e.Message} ]***"));
-                }
                 Console.WriteLine($"ИСКЛЮЧЕНИЕ: {e.Message}");
-                Console.WriteLine("Аварийное завершение программы!");
+                Console.WriteLine($"Аварийное завершение программы! Был создан файл {outputFileName}_LOG.txt");
+                using (StreamWriter sw = new StreamWriter($"{outputFileName}_LOG.txt"))
+                {
+                    sw.WriteLine(text.Insert( (text.Length - 1) > 0 ? text.Length - 1 : 0, $"***[ Ошибка: {e.Message} ]***"));
+                }
                 return;
             }
         }
