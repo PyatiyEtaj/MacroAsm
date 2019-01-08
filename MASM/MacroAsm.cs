@@ -30,7 +30,8 @@ namespace MASM
 
         public void Run(string inputFileName, string outputFileName)
         {
-            string text = "";
+            string text = " ";
+            string sourceText = " ";
             try
             {
                 using (StreamReader sr = new StreamReader(inputFileName, Encoding.UTF8))
@@ -42,6 +43,7 @@ namespace MASM
 
                 // производим импорт для всех файлов
                 bool check = ImportAllFiles(ref text);
+                sourceText = text;
                 int pos = text.IndexOf("#");
                 while (pos != -1)
                 {
@@ -56,6 +58,9 @@ namespace MASM
                     {
                         throw new Exception("Неожиданная встреча директивы: " + dirName);
                     }
+                    //Console.WriteLine(text);
+                    //Console.WriteLine("*****************");
+                    //Console.ReadKey();
                 }
                 using (StreamWriter sw = new StreamWriter(outputFileName, false, Encoding.UTF8))
                 {
@@ -69,7 +74,7 @@ namespace MASM
                 Console.WriteLine($"Аварийное завершение программы! Был создан файл {outputFileName}_LOG.txt");
                 using (StreamWriter sw = new StreamWriter($"{outputFileName}_LOG.txt"))
                 {
-                    sw.WriteLine(text.Insert( (text.Length - 1) > 0 ? text.Length - 1 : 0, $"***[ Ошибка: {e.Message} ]***"));
+                    sw.WriteLine(sourceText.Insert(sourceText.Length - 1, $"***[ Ошибка: {e.Message} ]***"));
                 }
                 return;
             }
@@ -97,8 +102,9 @@ namespace MASM
 
         private string GetCmdName(string text, int pos)
         {
-            int tmp = text.IndexOf(" ", pos);
-            string cmdName = text.Substring(pos, tmp-pos);
+            int posSpace = text.IndexOf(" ", pos);
+            int posEnd = text.IndexOf("\n", pos);
+            string cmdName = text.Substring(pos, ((posSpace < posEnd)?posSpace:posEnd)-pos);
             return cmdName;
         }
     }

@@ -19,7 +19,7 @@ namespace MASM
                 Console.WriteLine("Необходимо 2 параметра имя_входного_файла и имя_выхрдного_файла");
             }
             //MacroAsm masm = new MacroAsm();
-            //masm.Run("inp", "output");     
+            //masm.Run("input.txt", "output");
             Console.ReadKey();
         }
     }

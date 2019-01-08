@@ -21,9 +21,12 @@ namespace Directives
                 }
                 if (i > 0)
                 {
-                    if (cmdType == DirNames.EndIF.Value && res[i - 1].Value != DirNames.Else.Value)
+                    if (cmdType == DirNames.EndIF.Value)
                     {
-                        count++;
+                        if (res[i - 1].Value != DirNames.Else.Value)
+                        {
+                            count++;
+                        }
                         continue;
                     }
                 }                    
